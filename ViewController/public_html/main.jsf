@@ -6,10 +6,11 @@
         <af:form id="f1">
             <af:outputText id="ot1" value="uploader test"/>
             <af:subform id="upload-form">
-                <input type="file" id="upload"/>
+                <input type="file" multiple="multiple" id="upload"/>
                 <progress id="progress-bar" style="visibility: hidden;"/>
                 <af:commandButton id="upload-btn" text="process upload" partialSubmit="true">
                     <af:clientListener type="action" method="handleUpload"/>
+                    <af:clientAttribute name="contextPath" value="#{request.contextPath}"/>
                     <af:serverListener type="UploadCompleteEvent" method="#{UploadTracker.uploadComplete}"/>
                 </af:commandButton>
             </af:subform>

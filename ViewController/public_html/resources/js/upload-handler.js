@@ -8,6 +8,7 @@ function handleUpload (event) {
 }
 
 function doUpload (component) {
+    var contextPath = component.getProperty ('contextPath');
     var fileSelect = document.getElementById('upload');
     var progressBar = document.getElementById('progress-bar');
     var files = fileSelect.files;
@@ -17,17 +18,22 @@ function doUpload (component) {
         formData.append('photos[]', file, file.name);
     }
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/MultipleUpload-ViewController-context-root/servlet/upload', true);
+    xhr.open('POST', contextPath + '/servlet/upload', true);
     xhr.onload = function () {
-        if (xhr.status === 200) {
-            AdfCustomEvent.queue(component,
-                        "UploadCompleteEvent",
-                        null,
-                        false);
-            progressBar.style.visibility = "hidden";
-        } else {
-            alert ('An error occurred: ' + xhr.status);
-        }            
+        try {
+            if (xhr.status === 200) {
+                var response = JSON.parse (xhr.responseText);
+                AdfCustomEvent.queue(component,
+                            "UploadCompleteEvent",
+                            response,
+                            false);
+                progressBar.style.visibility = "hidden";
+            } else {
+                alert ('An error occurred: ' + xhr.status);
+            }
+        } catch (e) {
+            alert (e);
+        }
     };
     xhr.upload.addEventListener ("progress", function(e) {
             progressBar.max = e.total;

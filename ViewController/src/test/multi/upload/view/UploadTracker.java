@@ -2,7 +2,7 @@ package test.multi.upload.view;
 
 import java.io.Serializable;
 
-import javax.faces.event.ActionEvent;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,7 +31,12 @@ public class UploadTracker implements Serializable {
     }
 
     public String uploadComplete (ClientEvent event) {
-        logger.info ("got event");
+        logger.info ("got UploadComplete event");
+        for (String key: event.getParameters().keySet()) {
+            Map<String, Object> value = (Map<String, Object>)event.getParameters().get(key);
+            logger.info (key + " filename: " + value.get("filename"));
+            logger.info (key + " size: " + value.get("size"));
+        }
         return null;
     }
 
