@@ -4,12 +4,16 @@ import java.io.Serializable;
 
 import java.util.Map;
 
+import javax.faces.event.ValueChangeEvent;
+
 import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpSession;
 
 import oracle.adf.share.logging.ADFLogger;
 import oracle.adf.view.rich.render.ClientEvent;
+
+import org.apache.myfaces.trinidad.model.UploadedFile;
 
 public class UploadTracker implements Serializable {
     
@@ -42,6 +46,14 @@ public class UploadTracker implements Serializable {
 
     public void registerUpload (String uploadName) {
         logger.info ("upload registered:" + uploadName);
+        return;
+    }
+
+    public void uploadLegacyVCL(ValueChangeEvent valueChangeEvent) {
+        UploadedFile file = (UploadedFile)valueChangeEvent.getNewValue();
+        if (file != null) {
+            logger.info ("legacy file upload: " + file.getFilename() + ": " + file.getLength());
+        }
         return;
     }
 }

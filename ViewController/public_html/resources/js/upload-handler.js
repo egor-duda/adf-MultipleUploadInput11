@@ -1,3 +1,15 @@
+function onLoad (event) {
+    var legacySubform = document.getElementById ('upload-form-legacy:upload-form-legacy-container');
+    var newSubform = document.getElementById ('upload-form:upload-form-container');
+    var test = AdfPage.PAGE.findComponentByAbsoluteId ('upload-form:upload-form-container');
+    try {
+        var formData = new FormData();
+        newSubform.style.display = 'inline'
+    } catch (e) {
+        legacySubform.style.display = 'inline';
+    }
+}
+
 function handleUpload (event) {
     try {
         var component = event.getSource();
