@@ -228,6 +228,10 @@
             <value n="id" v="commons-fileupload"/>
             <value n="isJDK" v="false"/>
          </hash>
+         <hash>
+            <value n="id" v="jackson-core"/>
+            <value n="isJDK" v="false"/>
+         </hash>
       </list>
       <hash n="internalDefinitions">
          <list n="libraryDefinitions">
@@ -237,6 +241,14 @@
                </list>
                <value n="description" v="commons-fileupload"/>
                <value n="id" v="commons-fileupload"/>
+            </hash>
+            <hash>
+               <list n="classPath">
+                  <url path="../../../.m2/com/fasterxml/jackson/core/jackson-core/2.1.1/jackson-core-2.1.1.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="jackson-core"/>
+               <value n="id" v="jackson-core"/>
             </hash>
          </list>
       </hash>
@@ -291,6 +303,10 @@
          </hash>
          <hash>
             <value n="id" v="commons-fileupload"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="jackson-core"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>

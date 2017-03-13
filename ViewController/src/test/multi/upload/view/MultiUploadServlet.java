@@ -1,5 +1,9 @@
 package test.multi.upload.view;
 
+import com.fasterxml.jackson.core.JsonFactory;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -47,22 +51,27 @@ public class MultiUploadServlet extends HttpServlet {
         // upload.setSizeMax( maxFileSize );
         
         int count = 0;
-        out.write("{");
+        JsonFactory outfactory = new JsonFactory();
+        JsonGenerator generator = outfactory.createGenerator(out);
         try {
             Iterator<?> iterator = upload.parseRequest(request).iterator();
             while (iterator.hasNext()) {
                 FileItem fileItem = (FileItem)iterator.next();
                 if (!fileItem.isFormField ()) {
                     count ++;
-                    uploadTracker.registerUpload(fileItem.getName());
-                    if (count > 1) out.write (",");
-                    out.write ("\"upload" + count + "\":{\"filename\": \"" + fileItem.getName() + "\", \"size\": \"" + fileItem.getSize() + "\"}");
+                    uploadTracker.registerUpload (fileItem.getName());
+                    generator.writeStartObject ();
+                    generator.writeFieldName ("upload" + count);
+                    generator.writeStringField ("filename", fileItem.getName());
+                    generator.writeNumberField("filesize", fileItem.getSize());
+                    generator.writeEndObject();
                 }
             }
-            out.write ("}");
             return;
         } catch (FileUploadException ex) {
             throw new ServletException (ex);
+        } finally {
+            generator.close();
         }
     }
     
