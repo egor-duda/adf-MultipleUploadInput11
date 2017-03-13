@@ -1,12 +1,16 @@
 function onLoad (event) {
-    var legacySubform = document.getElementById ('upload-form-legacy:upload-form-legacy-container');
-    var newSubform = document.getElementById ('upload-form:upload-form-container');
-    var test = AdfPage.PAGE.findComponentByAbsoluteId ('upload-form:upload-form-container');
     try {
-        var formData = new FormData();
-        newSubform.style.display = 'inline'
+        var legacySubforms = document.getElementsByClassName ('legacy-upload-form');
+        var newSubforms = document.getElementsByClassName ('html5-upload-form');
+        var i;
+        try {
+            var formData = new FormData();
+            for (i = 0; i < newSubforms.length; i++) { newSubforms[i].style.display = "inline"; }
+        } catch (formdata_error) {
+            for (i = 0; i < legacySubforms.length; i++) { legacySubforms[i].style.display = "inline"; }
+        }
     } catch (e) {
-        legacySubform.style.display = 'inline';
+        alert (e);
     }
 }
 

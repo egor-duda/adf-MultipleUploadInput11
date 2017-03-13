@@ -1,5 +1,6 @@
 package test.multi.upload.view;
 
+import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -38,7 +39,6 @@ public class MultiUploadServlet extends HttpServlet {
         
         isMultipart = ServletFileUpload.isMultipartContent(request);
         response.setContentType("application/json");
-        PrintWriter out = response.getWriter( );
         DiskFileItemFactory factory = new DiskFileItemFactory();
         // maximum size that will be stored in memory
         // factory.setSizeThreshold(maxMemSize);
@@ -52,7 +52,8 @@ public class MultiUploadServlet extends HttpServlet {
         
         int count = 0;
         JsonFactory outfactory = new JsonFactory();
-        JsonGenerator generator = outfactory.createGenerator(out);
+        JsonGenerator generator = outfactory.createGenerator(response.getOutputStream(), JsonEncoding.UTF8);
+        generator.writeStartObject ();
         try {
             Iterator<?> iterator = upload.parseRequest(request).iterator();
             while (iterator.hasNext()) {
@@ -60,13 +61,13 @@ public class MultiUploadServlet extends HttpServlet {
                 if (!fileItem.isFormField ()) {
                     count ++;
                     uploadTracker.registerUpload (fileItem.getName());
-                    generator.writeStartObject ();
-                    generator.writeFieldName ("upload" + count);
+                    generator.writeObjectFieldStart ("upload" + count);
                     generator.writeStringField ("filename", fileItem.getName());
                     generator.writeNumberField("filesize", fileItem.getSize());
                     generator.writeEndObject();
                 }
             }
+            generator.writeEndObject();
             return;
         } catch (FileUploadException ex) {
             throw new ServletException (ex);

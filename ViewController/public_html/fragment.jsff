@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+  <af:subform id="upload-form-legacy">
+    <af:panelGroupLayout id="upload-form-legacy-container" inlineStyle="display: none" clientComponent="true"
+                         layout="horizontal" styleClass="legacy-upload-form">
+      <af:inputFile id="upload-legacy" valueChangeListener="#{UploadTracker.uploadLegacyVCL}"
+                    partialTriggers="legacy-upload-btn"/>
+      <af:commandButton id="legacy-upload-btn" text="process upload" partialSubmit="true"/>
+    </af:panelGroupLayout>
+  </af:subform>
+  <af:subform id="upload-form">
+    <af:panelGroupLayout id="upload-form-container" inlineStyle="display: none;" clientComponent="true"
+                         layout="horizontal" styleClass="html5-upload-form">
+      <input type="file" multiple="multiple" id="upload" xmlns="http://www.w3.org/1999/xhtml"/>
+      <progress id="progress-bar" style="visibility: hidden;" xmlns="http://www.w3.org/1999/xhtml"/>
+      <af:commandButton id="upload-btn" text="process upload" partialSubmit="true">
+        <af:clientListener type="action" method="handleUpload"/>
+        <af:clientAttribute name="contextPath" value="#{request.contextPath}"/>
+        <af:serverListener type="UploadCompleteEvent" method="#{UploadTracker.uploadComplete}"/>
+      </af:commandButton>
+    </af:panelGroupLayout>
+  </af:subform>
+</ui:composition>

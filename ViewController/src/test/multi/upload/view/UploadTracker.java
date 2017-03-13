@@ -39,7 +39,7 @@ public class UploadTracker implements Serializable {
         for (String key: event.getParameters().keySet()) {
             Map<String, Object> value = (Map<String, Object>)event.getParameters().get(key);
             logger.info (key + " filename: " + value.get("filename"));
-            logger.info (key + " size: " + value.get("size"));
+            logger.info (key + " size: " + value.get("filesize"));
         }
         return null;
     }
