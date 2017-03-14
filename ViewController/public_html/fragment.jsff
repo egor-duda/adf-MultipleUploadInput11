@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+  <af:group id="gr1">
   <af:subform id="upload-form-legacy">
     <af:panelGroupLayout id="upload-form-legacy-container" inlineStyle="display: none" clientComponent="true"
                          layout="horizontal" styleClass="legacy-upload-form">
@@ -11,8 +12,8 @@
   <af:subform id="upload-form">
     <af:panelGroupLayout id="upload-form-container" inlineStyle="display: none;" clientComponent="true"
                          layout="horizontal" styleClass="html5-upload-form">
-      <input type="file" multiple="multiple" id="upload" xmlns="http://www.w3.org/1999/xhtml"/>
-      <progress id="progress-bar" style="visibility: hidden;" xmlns="http://www.w3.org/1999/xhtml"/>
+      <input type="file" multiple="multiple" class="upload-files" xmlns="http://www.w3.org/1999/xhtml"/>
+      <progress class="upload-progress" style="visibility: hidden;" xmlns="http://www.w3.org/1999/xhtml"/>
       <af:commandButton id="upload-btn" text="process upload" partialSubmit="true">
         <af:clientListener type="action" method="handleUpload"/>
         <af:clientAttribute name="contextPath" value="#{request.contextPath}"/>
@@ -20,4 +21,5 @@
       </af:commandButton>
     </af:panelGroupLayout>
   </af:subform>
+  </af:group>
 </ui:composition>
