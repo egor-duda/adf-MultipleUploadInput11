@@ -45,6 +45,7 @@ function doUpload (component) {
                             response,
                             false);
                 progressBar.style.visibility = "hidden";
+                fileSelect.value = "";
             } else {
                 alert ('An error occurred: ' + xhr.status);
             }
