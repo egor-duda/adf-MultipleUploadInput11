@@ -1,15 +1,20 @@
 function onLoad (event) {
     try {
-        var legacySubforms = document.getElementsByClassName ('legacy-upload-form');
-        var newSubforms = document.getElementsByClassName ('html5-upload-form');
-        var i;
+        var legacy = true;
         try {
             var formData = new FormData();
             if (formData == null) { throw 'undefined'; }
-            for (i = 0; i < newSubforms.length; i++) { newSubforms[i].style.display = "inline"; }
+            legacy = false;
         } catch (formdata_error) {
-            for (i = 0; i < legacySubforms.length; i++) { legacySubforms[i].style.display = "inline"; }
+            legacy = true;
         }
+        var subforms;
+        if (legacy) {
+            subforms = document.getElementsByClassName ('legacy-upload-form');
+        } else {
+            subforms = document.getElementsByClassName ('html5-upload-form');
+        }
+        for (var i = 0; i < subforms.length; i++) { subforms[i].style.display = "inline"; }
     } catch (e) {
         alert (e);
     }
@@ -26,8 +31,10 @@ function handleUpload (event) {
 
 function doUpload (component) {
     var contextPath = component.getProperty ('contextPath');
-    var fileSelect = component.getParent().getPeer().getDomNode().querySelector('.upload-files');
-    var progressBar = component.getParent().getPeer().getDomNode().querySelector('.upload-progress');
+    var fileSelect = component.getPeer().getDomNode().parentNode.parentNode.querySelector('.upload-files');
+    var uploadProgressPopup = AdfPage.PAGE.findComponentByAbsoluteId('upload-progress-popup');
+    var uploadProgressDialog = AdfPage.PAGE.findComponentByAbsoluteId('upload-progress-dlg'); 
+    var progressBar = document.querySelector('.upload-progress');
     var files = fileSelect.files;
     var formData = new FormData();
     for (var i = 0; i < files.length; i++) {
@@ -44,7 +51,6 @@ function doUpload (component) {
                             "UploadCompleteEvent",
                             response,
                             false);
-                progressBar.style.visibility = "hidden";
                 fileSelect.value = "";
             } else {
                 alert ('An error occurred: ' + xhr.status);
@@ -52,13 +58,20 @@ function doUpload (component) {
         } catch (e) {
             alert (e);
         }
+        uploadProgressPopup.hide();
     };
-    xhr.upload.addEventListener ("progress", function(e) {
-            progressBar.max = e.total;
-            progressBar.value = e.loaded;
+    xhr.upload.addEventListener ("progress", function(event) {
+            try {
+                if (!event.lengthComputable) return;
+                uploadProgressDialog.setTitle('Uploading files: ' + Math.ceil(event.loaded*100/event.total) + '%');
+                progressBar.max = event.total;
+                progressBar.value = event.loaded;
+            } catch (e) {
+                alert (e);
+            }
         }, 
         false);
     progressBar.value = 0;
-    progressBar.style.visibility = "visible";        
+    uploadProgressPopup.show();
     xhr.send(formData);
 }

@@ -4,6 +4,13 @@
     <af:document title="main.jsf" id="d1">
         <af:resource type="javascript" source="/resources/js/upload-handler.js"/>
         <af:clientListener method="onLoad" type="load"/>
+        <af:popup autoCancel="disabled" id="upload-progress-popup" contentDelivery="immediate" animate="false">
+            <af:dialog id="upload-progress-dlg" type="none" closeIconVisible="false" title="Uploading files">
+                <af:panelGroupLayout id="file_upload_pgl" layout="vertical" halign="center">
+                    <af:outputText value="&lt;progress class=&quot;upload-progress&quot;/>" id="progress_ot" escape="false"/>
+                </af:panelGroupLayout>
+            </af:dialog>
+        </af:popup>
         <af:form id="f1" usesUpload="true">
             <af:subform id="upload-form-legacy">
                 <af:panelGroupLayout id="upload-form-legacy-container" inlineStyle="display: none" clientComponent="true"
@@ -17,7 +24,6 @@
                 <af:panelGroupLayout id="upload-form-container" inlineStyle="display: none;" clientComponent="true"
                                     layout="horizontal" styleClass="html5-upload-form">
                     <input type="file" multiple="multiple" class="upload-files" xmlns="http://www.w3.org/1999/xhtml"/>
-                    <progress class="upload-progress" style="visibility: hidden;" xmlns="http://www.w3.org/1999/xhtml"/>
                     <af:commandButton id="upload-btn" text="process upload" partialSubmit="true">
                         <af:clientListener type="action" method="handleUpload"/>
                         <af:clientAttribute name="contextPath" value="#{request.contextPath}"/>

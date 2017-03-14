@@ -13,7 +13,6 @@
     <af:panelGroupLayout id="upload-form-container" inlineStyle="display: none;" clientComponent="true"
                          layout="horizontal" styleClass="html5-upload-form">
       <input type="file" multiple="multiple" class="upload-files" xmlns="http://www.w3.org/1999/xhtml"/>
-      <progress class="upload-progress" style="visibility: hidden;" xmlns="http://www.w3.org/1999/xhtml"/>
       <af:commandButton id="upload-btn" text="process upload" partialSubmit="true">
         <af:clientListener type="action" method="handleUpload"/>
         <af:clientAttribute name="contextPath" value="#{request.contextPath}"/>
