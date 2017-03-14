@@ -5,6 +5,7 @@ function onLoad (event) {
         var i;
         try {
             var formData = new FormData();
+            if (formData == null) { throw 'undefined'; }
             for (i = 0; i < newSubforms.length; i++) { newSubforms[i].style.display = "inline"; }
         } catch (formdata_error) {
             for (i = 0; i < legacySubforms.length; i++) { legacySubforms[i].style.display = "inline"; }
@@ -25,8 +26,8 @@ function handleUpload (event) {
 
 function doUpload (component) {
     var contextPath = component.getProperty ('contextPath');
-    var fileSelect = document.getElementById('upload');
-    var progressBar = document.getElementById('progress-bar');
+    var fileSelect = component.getParent().getPeer().getDomNode().querySelector('.upload-files');
+    var progressBar = component.getParent().getPeer().getDomNode().querySelector('.upload-progress');
     var files = fileSelect.files;
     var formData = new FormData();
     for (var i = 0; i < files.length; i++) {
