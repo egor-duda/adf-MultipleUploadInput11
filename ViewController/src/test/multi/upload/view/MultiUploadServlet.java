@@ -8,8 +8,6 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import java.io.File;
 import java.io.IOException;
 
-import java.io.PrintWriter;
-
 import java.util.Iterator;
 
 import javax.servlet.ServletException;
@@ -66,6 +64,7 @@ public class MultiUploadServlet extends HttpServlet {
                     generator.writeNumberField("filesize", fileItem.getSize());
                     generator.writeEndObject();
                 }
+                fileItem.delete();
             }
             generator.writeEndObject();
             return;
